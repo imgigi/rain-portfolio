@@ -13,7 +13,9 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
 }[c]));
 
 const IMG_BASE = "https://img.ggjj.app";
-// 本地 dev 下 wrangler 不实现 /cdn-cgi/image，直接用原 URL
+// /cdn-cgi/image 是 CF Pro+ 的 Image Resizing 功能，免费计划不可用。
+// postimg / R2 public domain 本身已有 CDN，直接用原 URL，够快。
+const USE_CF_IMAGE = false;
 const IS_LOCAL = typeof location !== "undefined" && /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(location.host);
 
 function resolveImg(url) {
@@ -21,13 +23,14 @@ function resolveImg(url) {
   if (url.startsWith("/api/image/")) return IMG_BASE + "/" + url.slice("/api/image/".length);
   return url;
 }
-function rimg(url, w) {
+function rimg(url, _w) {
   const u = resolveImg(url);
   if (!u || !u.startsWith("http")) return u;
-  if (IS_LOCAL) return u;
-  return `/cdn-cgi/image/width=${w},format=auto,quality=85,fit=scale-down/${u}`;
+  if (!USE_CF_IMAGE || IS_LOCAL) return u;
+  return `/cdn-cgi/image/width=${_w},format=auto,quality=85,fit=scale-down/${u}`;
 }
 function srcsetFor(url, widths) {
+  if (!USE_CF_IMAGE || IS_LOCAL) return "";
   return widths.map(w => `${rimg(url, w)} ${w}w`).join(", ");
 }
 
