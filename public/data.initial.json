@@ -295,7 +295,13 @@
         "title": "CSET 2100 · Science Video",
         "description": "A short science video on AI-generated media and public trust.",
         "cover": null,
-        "videoFile": null,
+        "videoFile": {
+          "key": "rain/cset-2100-science-video.mp4",
+          "url": "https://img.ggjj.app/rain/cset-2100-science-video.mp4",
+          "name": "CSET 2100 Science Video.mp4",
+          "size": 20490858,
+          "type": "video/mp4"
+        },
         "videoEmbed": "",
         "date": "2026-04-12"
       }
