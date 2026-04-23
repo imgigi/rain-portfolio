@@ -1,7 +1,6 @@
 # Cloudflare Pages 配置
-# - 本地 dev 由 `npm run dev` 的 --kv / --r2 flag 自动模拟
-# - KV / R2 的生产绑定在 Cloudflare Dashboard → Settings → Functions 做
-# - KV namespace id 留空，部署时在 Dashboard 绑定；本地 dev 用 --kv 模拟
+# - 新版 Pages 要求：bindings 必须全部写进 wrangler.toml（Dashboard UI 只读）
+# - Secrets（ADMIN_PASSWORD / SESSION_SECRET）不写 toml，用 `wrangler pages secret put` 单独设
 
 name = "rain-portfolio"
 compatibility_date = "2025-01-01"
@@ -12,6 +11,10 @@ SITE_ID = "rain"
 IMG_BASE_URL = "https://img.ggjj.app"
 # 美术作品全走 postimg 外链，R2 只存传媒附件（视频/音频/PDF），配额设宽裕
 MAX_IMAGES = "200"
+
+[[kv_namespaces]]
+binding = "DATA"
+id = "3c96c6a6138f42ee80dce1c2ce567de2"
 
 [[r2_buckets]]
 binding = "IMAGES"
