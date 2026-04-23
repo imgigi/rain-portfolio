@@ -36,7 +36,6 @@
         "name": "Tension",
         "status": "past",
         "description": "",
-        "columns": "3",
         "items": [
           {
             "url": "https://i.postimg.cc/Zqn60z0K/DSC03646.jpg",
@@ -74,13 +73,13 @@
             "url": "https://i.postimg.cc/TPsgDNDv/IMG-7169.jpg",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "stack"
       },
       {
         "name": "Pair",
         "status": "past",
         "description": "",
-        "columns": "2",
         "items": [
           {
             "url": "https://i.postimg.cc/JnKqBzxF/IMG-3479.png",
@@ -98,13 +97,13 @@
             "url": "https://i.postimg.cc/8c5bdgnL/IMG-3482.png",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "stack"
       },
       {
         "name": "Transformation",
         "status": "past",
         "description": "",
-        "columns": "3",
         "items": [
           {
             "url": "https://i.postimg.cc/9QF7NHdk/IMG-4786.jpg",
@@ -118,13 +117,13 @@
             "url": "https://i.postimg.cc/t4CxmGd0/IMG-4788.jpg",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "stack"
       },
       {
         "name": "Peace",
         "status": "past",
         "description": "",
-        "columns": "4",
         "items": [
           {
             "url": "https://i.postimg.cc/xTBPm7Gk/39b5fda14096638d61f2067dbeb481f3.jpg",
@@ -158,13 +157,13 @@
             "url": "https://i.postimg.cc/X7tg5hK8/IMG-7660.jpg",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "stack"
       },
       {
         "name": "Contrast",
         "status": "upcoming",
         "description": "",
-        "columns": "3",
         "items": [
           {
             "url": "https://i.postimg.cc/Fs4qSYhG/DSC00967.jpg",
@@ -210,13 +209,13 @@
             "url": "https://i.postimg.cc/59vTjBWw/Screenshot-2026-01-03-at-03-14-23.png",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "slider"
       },
       {
         "name": "Photography",
         "status": "ongoing",
         "description": "",
-        "columns": "3",
         "items": [
           {
             "url": "https://i.postimg.cc/Cn41vdCY/1.jpg",
@@ -242,7 +241,8 @@
             "url": "https://i.postimg.cc/m2qsKQCD/Weixin-Image-2026-01-27-195739-139.jpg",
             "caption": ""
           }
-        ]
+        ],
+        "layout": "columns"
       }
     ]
   },

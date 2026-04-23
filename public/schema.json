@@ -90,14 +90,13 @@
               "rows": 2
             },
             {
-              "id": "columns",
-              "label": "网格列数",
+              "id": "layout",
+              "label": "布局样式",
               "type": "select",
               "options": [
-                { "value": "1", "label": "1 列" },
-                { "value": "2", "label": "2 列" },
-                { "value": "3", "label": "3 列" },
-                { "value": "4", "label": "4 列" }
+                { "value": "stack", "label": "纵向流（单张大图竖排，默认）" },
+                { "value": "slider", "label": "横向滚动（Contrast 风）" },
+                { "value": "columns", "label": "三列分栏（Photography 风）" }
               ]
             },
             {

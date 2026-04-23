@@ -1,11 +1,10 @@
-// Rain Shen — 艺术 + 传媒双栏目作品集
+// Rain Shen — 艺术 + 传媒双栏目作品集（对齐线上风格）
 // 路由：
-//   #/              首页 (intro + hero + Art/Media 引导)
-//   #/art           美术总览（系列分组）
-//   #/art/:idx      单个美术系列锚点
-//   #/media         传媒总览（内部 tab：文章/视频/音频）
+//   #/              首页：hero + about + 美术/传媒 入口 + contact
+//   #/art           美术：exh-container 垂直流，3 种 layout
+//   #/media         传媒：文章 / 视频 / 音频 tab
 //   #/article/:idx  文章详情
-//   #/about         关于我 / 联系方式
+//   #/about         可选：单独的 about 页
 
 const app = document.getElementById("app");
 
@@ -14,6 +13,9 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
 }[c]));
 
 const IMG_BASE = "https://img.ggjj.app";
+// 本地 dev 下 wrangler 不实现 /cdn-cgi/image，直接用原 URL
+const IS_LOCAL = typeof location !== "undefined" && /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(location.host);
+
 function resolveImg(url) {
   if (!url) return "";
   if (url.startsWith("/api/image/")) return IMG_BASE + "/" + url.slice("/api/image/".length);
@@ -22,15 +24,16 @@ function resolveImg(url) {
 function rimg(url, w) {
   const u = resolveImg(url);
   if (!u || !u.startsWith("http")) return u;
+  if (IS_LOCAL) return u;
   return `/cdn-cgi/image/width=${w},format=auto,quality=85,fit=scale-down/${u}`;
 }
 function srcsetFor(url, widths) {
   return widths.map(w => `${rimg(url, w)} ${w}w`).join(", ");
 }
 
-const SVG_CLOSE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>`;
-const SVG_PREV  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="14 5 7 12 14 19"/></svg>`;
-const SVG_NEXT  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="10 5 17 12 10 19"/></svg>`;
+const SVG_CLOSE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>`;
+const SVG_PREV  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="14 5 7 12 14 19"/></svg>`;
+const SVG_NEXT  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="10 5 17 12 10 19"/></svg>`;
 const SVG_DL    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3v13"/><polyline points="7 11 12 16 17 11"/><line x1="4" y1="20" x2="20" y2="20"/></svg>`;
 
 let DATA = null;
@@ -41,6 +44,7 @@ async function boot() {
   const title = (DATA.header && DATA.header.siteName) || "Chenyu (Rain) Shen";
   document.title = title;
   window.addEventListener("hashchange", renderRoute);
+  window.addEventListener("scroll", handleHeaderScroll, { passive: true });
   renderRoute();
 }
 
@@ -54,94 +58,76 @@ function currentRoute() {
   if (raw === "about") return { name: "about" };
   const a = raw.match(/^article\/(\d+)$/);
   if (a) return { name: "article", idx: Number(a[1]) };
-  const c = raw.match(/^art\/(\d+)$/);
-  if (c) return { name: "art", catIdx: Number(c[1]) };
   return { name: "home" };
 }
 
 function renderRoute() {
   const r = currentRoute();
-  const sidebar = renderSidebar(r);
   let main = "";
-  if (r.name === "home")      main = viewHome();
-  else if (r.name === "art")  main = viewArt();
-  else if (r.name === "media") main = viewMedia();
+  if (r.name === "home")        main = viewHome();
+  else if (r.name === "art")    main = viewArt();
+  else if (r.name === "media")  main = viewMedia();
   else if (r.name === "article") main = viewArticle(r.idx);
-  else if (r.name === "about") main = viewAbout();
+  else if (r.name === "about")  main = viewAbout();
 
-  app.innerHTML = `
-    <div class="layout">
-      <aside class="sidebar">${sidebar}</aside>
-      <section class="content">${main}</section>
-    </div>
-    ${renderFooter()}
-  `;
+  const headerHtml = renderHeader(r);
+  const footerHtml = renderFooter();
 
-  // 入场动画 stagger
-  const items = app.querySelectorAll(".jg__item, .about__block, .m-card, .home__block");
-  items.forEach((el, i) => {
-    el.style.animationDelay = `${Math.min(i, 20) * 40}ms`;
-  });
+  app.innerHTML = `${headerHtml}<main>${main}</main>${footerHtml}`;
 
-  initJustifiedGalleries();
-  initLightboxTargets();
   initMediaTabs();
-
-  if (r.name === "art" && typeof r.catIdx === "number") {
-    const el = document.getElementById(`cat-${r.catIdx}`);
-    if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
-      return;
-    }
-  }
+  initLightboxTargets();
+  initContrastDrag();
+  handleHeaderScroll();
   window.scrollTo(0, 0);
 }
 
-/* ---------- Sidebar ---------- */
+/* ---------- Header ---------- */
 
-function renderSidebar(r) {
+function renderHeader(r) {
   const brand = (DATA.header && DATA.header.siteName) || "Chenyu (Rain) Shen";
-  const tagline = (DATA.header && DATA.header.tagline) || "";
-
-  const cats = artCategories();
-  const artSub = cats.map((c, i) => {
-    const active = r.name === "art" && r.catIdx === i;
-    const name = c.name || `Series ${i + 1}`;
-    return `<a class="nav__sub${active ? " is-active" : ""}" href="#/art/${i}">
-      <span class="nav__mark">—</span><span class="nav__text">${esc(name)}</span>
-    </a>`;
-  }).join("");
-
-  const navItem = (href, label, active) => `
-    <a class="nav__item${active ? " is-active" : ""}" href="${href}">
-      <span class="nav__mark">—</span><span class="nav__text">${esc(label)}</span>
-    </a>`;
+  const navItem = (href, label, active) =>
+    `<li><a href="${href}"${active ? ' class="is-active"' : ""}>${esc(label)}</a></li>`;
 
   return `
-    <a class="brand" href="#/">
-      <span class="brand__name">${esc(brand)}</span>
-      ${tagline ? `<span class="brand__tag">${esc(tagline)}</span>` : ""}
-    </a>
-    <nav class="nav">
-      ${navItem("#/", "首页 · Home", r.name === "home")}
-      <div class="nav__group">
-        <a class="nav__item${r.name === "art" ? " is-active" : ""}" href="#/art">
-          <span class="nav__mark">—</span><span class="nav__text">美术 · Art</span>
-        </a>
-        <div class="nav__sublist">${artSub || `<span class="nav__empty">（暂无系列）</span>`}</div>
-      </div>
-      ${navItem("#/media", "传媒 · Media", r.name === "media" || r.name === "article")}
-      ${navItem("#/about", "关于 · About", r.name === "about")}
-    </nav>
-  `;
+    <header class="site-header${r.name === "home" ? " is-over-hero" : ""}">
+      <a class="logo" href="#/">${esc(brand)}</a>
+      <nav class="site-nav">
+        <ul>
+          ${navItem("#/", "Home", r.name === "home")}
+          ${navItem("#/art", "Art", r.name === "art")}
+          ${navItem("#/media", "Media", r.name === "media" || r.name === "article")}
+          ${navItem("#/about", "About", r.name === "about")}
+        </ul>
+      </nav>
+    </header>`;
+}
+
+function handleHeaderScroll() {
+  const hdr = document.querySelector("header.site-header");
+  if (!hdr) return;
+  const scrolled = window.scrollY > 20;
+  hdr.classList.toggle("is-scrolled", scrolled);
+  // home 页 hero 之下不再 over-hero
+  if (hdr.classList.contains("is-over-hero") && scrolled) {
+    hdr.classList.remove("is-over-hero");
+  } else if (currentRoute().name === "home" && !scrolled) {
+    hdr.classList.add("is-over-hero");
+  }
 }
 
 /* ---------- Footer ---------- */
 
 function renderFooter() {
-  const txt = (DATA.header && DATA.header.copyright) || "";
-  if (!txt) return "";
-  return `<footer class="site-footer">${esc(txt)}</footer>`;
+  const copy = (DATA.header && DATA.header.copyright) || "© Chenyu Shen";
+  const ab = DATA.about || {};
+  return `
+    <footer class="site-footer">
+      <div class="site-footer__left">${esc(copy)}<span>·</span>All rights reserved</div>
+      <div class="site-footer__right">
+        ${ab.location ? esc(ab.location) : ""}
+      </div>
+    </footer>`;
 }
 
 /* ---------- Data accessors ---------- */
@@ -159,94 +145,331 @@ function mediaAudios() {
   return Array.isArray(DATA.media && DATA.media.audios) ? DATA.media.audios : [];
 }
 
-/* ---------- Gallery (justified) ---------- */
+const CAT_LABEL = {
+  news_story: "News Story",
+  research_highlight: "Research Highlight",
+  misinformation_analysis: "Misinformation Analysis",
+  interview: "Interview Transcript",
+  essay: "Essay",
+};
 
-function galleryBlockHtml(items, columns, startIdx) {
-  const c = Math.max(1, Math.min(4, Number(columns) || 3));
-  const good = (items || []).filter(x => x && x.url);
-  if (!good.length) return "";
-  let i = startIdx;
-  const cells = good.map(it => {
-    const idx = i++;
-    const src = rimg(it.url, 1400);
-    const srcset = srcsetFor(it.url, [600, 900, 1200, 1800]);
-    const sizes = `(max-width: 640px) 100vw, (max-width: 900px) 50vw, ${Math.round(100 / c)}vw`;
-    return `
-      <figure class="jg__item" data-idx="${idx}" style="--aspect:1">
-        <img src="${esc(src)}" srcset="${esc(srcset)}" sizes="${esc(sizes)}" alt="${esc(it.caption || "")}" loading="lazy" />
-      </figure>`;
-  }).join("");
-  return `<div class="jg" data-cols="${c}">${cells}</div>`;
+const STATUS_LABEL = { past: "Past", upcoming: "Upcoming", ongoing: "Ongoing" };
+
+/* ---------- Views · Home ---------- */
+
+function viewHome() {
+  const intro = DATA.intro || {};
+  const ab = DATA.about || {};
+  const brand = (DATA.header && DATA.header.siteName) || "Chenyu Rain Shen";
+  const tagline = (DATA.header && DATA.header.tagline) || "Communicator & Artist";
+
+  // Hero title 拆两行：取 brand 空格切
+  const parts = brand.trim().split(/\s+/);
+  const titleLine1 = parts.slice(0, Math.ceil(parts.length / 2)).join(" ");
+  const titleLine2 = parts.slice(Math.ceil(parts.length / 2)).join(" ");
+
+  const heroes = Array.isArray(intro.heroImages) ? intro.heroImages.filter(x => x && x.url) : [];
+  const collageHtml = heroes.slice(0, 5).map((it, i) => `
+    <img class="collage-img c-img-${i + 1}" src="${esc(rimg(it.url, 600))}" srcset="${esc(srcsetFor(it.url, [400, 600, 900]))}" sizes="22vw" alt="${esc(it.caption || "")}" data-idx="${i}" data-lbx="hero" loading="eager">
+  `).join("");
+
+  const paragraphs = String(intro.aboutParagraphs || "")
+    .split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const aboutParas = paragraphs.map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+
+  const photo = ab.photo && ab.photo.url ? ab.photo.url : "";
+  const artCount = artCategories().reduce((n, c) => n + ((c.items || []).filter(x => x && x.url).length), 0);
+  const artSeries = artCategories().length;
+  const mediaCount = mediaArticles().length + mediaVideos().length + mediaAudios().length;
+
+  return `
+    <section class="hero-section">
+      <div class="hero-text">
+        <h1 class="hero-title">${esc(titleLine1)}<br>${esc(titleLine2)}</h1>
+      </div>
+      <div class="hero-collage">${collageHtml}</div>
+      <div class="hero-subtitle">${esc(tagline)} <em>/</em> Science Communication &amp; Visual Practice</div>
+    </section>
+
+    <section class="about-section container">
+      <div class="about-profile">
+        ${photo ? `<div class="about-photo-wrapper"><img class="about-photo" src="${esc(rimg(photo, 900))}" srcset="${esc(srcsetFor(photo, [600, 900, 1200]))}" sizes="(max-width: 1024px) 90vw, 40vw" alt="${esc(ab.photo.alt || brand)}"></div>` : ""}
+        <div class="about-info-name">${esc(brand)}</div>
+        <div class="about-info-details">
+          ${ab.email ? `<p><a href="mailto:${esc(ab.email)}">${esc(ab.email)}</a></p>` : ""}
+          ${ab.phone ? `<p>${esc(ab.phone)}</p>` : ""}
+          ${ab.location ? `<p>${esc(ab.location)}</p>` : ""}
+        </div>
+      </div>
+      <h2 class="about-title">${esc(tagline)}</h2>
+      <div class="about-text">${aboutParas}</div>
+    </section>
+
+    <section class="home-nav container">
+      <h2 class="section-title">Explore</h2>
+      <div class="home-nav-grid">
+        <a class="home-nav-card" href="#/art">
+          <span class="home-nav-num">01 / Art</span>
+          <span class="home-nav-title">美术<small>${artCount} Works · ${artSeries} Series</small></span>
+          <span class="home-nav-desc">Drawing, photography, and mixed media built around contrast, tension, pairing, transformation, and peace.</span>
+          <span class="home-nav-arrow">→</span>
+        </a>
+        <a class="home-nav-card" href="#/media">
+          <span class="home-nav-num">02 / Media</span>
+          <span class="home-nav-title">传媒<small>${mediaCount} Pieces · Article · Video · Audio</small></span>
+          <span class="home-nav-desc">Science communication on AI-generated media, misinformation, deepfakes, and public trust.</span>
+          <span class="home-nav-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="contact-section container">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-block">
+        Interested in conversation or collaboration — feel free to reach out.
+        ${ab.email ? `<a class="contact-email" href="mailto:${esc(ab.email)}">${esc(ab.email)}</a>` : ""}
+        <div class="contact-meta">
+          ${ab.phone ? esc(ab.phone) : ""}${ab.phone && ab.location ? " · " : ""}${ab.location ? esc(ab.location) : ""}
+        </div>
+      </div>
+    </section>`;
 }
 
-function effectiveCols(configured) {
-  const w = window.innerWidth;
-  if (w < 640) return 1;
-  if (w < 900) return Math.min(configured, 2);
-  return configured;
-}
+/* ---------- Views · Art ---------- */
 
-function initJustifiedGalleries() {
-  app.querySelectorAll(".jg").forEach(container => {
-    const configured = Math.max(1, Math.min(4, Number(container.dataset.cols) || 3));
+function viewArt() {
+  const cats = artCategories();
+  const intro = (DATA.art && DATA.art.intro) || "";
 
-    const imgs = Array.from(container.querySelectorAll("img"));
-    imgs.forEach(img => {
-      const setAspect = () => {
-        const w = img.naturalWidth || 1;
-        const h = img.naturalHeight || 1;
-        const fig = img.closest(".jg__item");
-        if (fig) fig.style.setProperty("--aspect", (w / h).toFixed(4));
-        layout();
-      };
-      if (img.complete && img.naturalWidth) setAspect();
-      else img.addEventListener("load", setAspect, { once: true });
-    });
+  if (!cats.length) {
+    return `<div class="container art-page"><h2 class="section-title">Art</h2><p>暂无作品。请到 <a href="/admin">/admin</a> 添加。</p></div>`;
+  }
 
-    function layout() {
-      const cols = effectiveCols(configured);
-      container.dataset.effCols = cols;
-      container.querySelectorAll(".jg__break").forEach(el => el.remove());
-      const figs = Array.from(container.querySelectorAll(".jg__item"));
-      figs.forEach(f => f.classList.remove("is-lastrow-short"));
+  let globalImgIdx = 0;
+  const groups = cats.map((cat) => {
+    const items = (cat.items || []).filter(x => x && x.url);
+    if (!items.length) return "";
+    const status = STATUS_LABEL[cat.status] || "";
+    const layout = cat.layout || "stack";
 
-      const total = figs.length;
-      figs.forEach((fig, i) => {
-        if ((i + 1) % cols === 0 && i + 1 !== total) {
-          const br = document.createElement("div");
-          br.className = "jg__break";
-          fig.after(br);
-        }
-      });
-
-      const lastRowCount = total % cols;
-      const fullRows = Math.floor(total / cols);
-      if (lastRowCount > 0 && fullRows > 0) {
-        const firstRowH = figs[0].getBoundingClientRect().height;
-        if (firstRowH > 0) {
-          container.style.setProperty("--row-h", firstRowH + "px");
-          for (let i = total - lastRowCount; i < total; i++) {
-            figs[i].classList.add("is-lastrow-short");
-          }
-        }
-      }
+    let gallery = "";
+    if (layout === "slider") {
+      const cells = items.map(it => {
+        const i = globalImgIdx++;
+        return `<div class="contrast-gallery-item" data-idx="${i}" data-lbx="art"><img src="${esc(rimg(it.url, 1000))}" alt="${esc(it.caption || "")}" loading="lazy"></div>`;
+      }).join("");
+      gallery = `
+        <div class="contrast-gallery">
+          <div class="contrast-gallery-container">${cells}</div>
+        </div>
+        <div class="exh-info">
+          <div class="exh-title">${esc(cat.name)}</div>
+          <div class="exh-meta"><span class="exh-num">${items.length} pieces</span></div>
+        </div>`;
+    } else if (layout === "columns") {
+      // 三列分栏，stagger（第 2 / 5 列下移）
+      const cols = items.map((it, i) => {
+        const idx = globalImgIdx++;
+        const staggerCls = i % 3 === 1 ? " stagger" : i % 3 === 2 ? " stagger-2" : "";
+        return `
+          <div class="photo-col${staggerCls}">
+            <div class="photo-header"><span class="photo-num">${String(i + 1).padStart(2, "0")}</span></div>
+            <div class="photo-img-box" data-idx="${idx}" data-lbx="art"><img src="${esc(rimg(it.url, 900))}" alt="${esc(it.caption || "")}" loading="lazy"></div>
+            ${it.caption ? `<div class="photo-caption">${esc(it.caption)}</div>` : ""}
+          </div>`;
+      }).join("");
+      gallery = `
+        <div class="exh-info">
+          <div class="exh-title">${esc(cat.name)}</div>
+          <div class="exh-meta"><span class="exh-num">${items.length} pieces</span></div>
+        </div>
+        <div class="photo-showcase">${cols}</div>`;
+    } else {
+      // stack 默认：每张图独占一行，下方 info
+      const stacks = items.map((it, i) => {
+        const idx = globalImgIdx++;
+        return `
+          <div class="exh-item">
+            <div class="exh-img-wrap" data-idx="${idx}" data-lbx="art">
+              <img src="${esc(rimg(it.url, 1200))}" srcset="${esc(srcsetFor(it.url, [600, 900, 1200, 1800]))}" sizes="(max-width: 1024px) 60vw, 38vw" alt="${esc(it.caption || "")}" loading="lazy">
+            </div>
+            <div class="exh-info">
+              <div class="exh-title">${esc(cat.name)} / ${String(i + 1).padStart(2, "0")}</div>
+              <div class="exh-meta"><span class="exh-num">${esc(it.caption || "")}</span></div>
+            </div>
+          </div>`;
+      }).join("");
+      gallery = stacks;
     }
 
-    layout();
-    let rafId = null;
-    const onResize = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(layout);
-    };
-    window.addEventListener("resize", onResize);
-    container._jgCleanup = () => {
-      window.removeEventListener("resize", onResize);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  });
+    return `
+      <div class="exh-group">
+        ${status ? `<div class="exh-label">${esc(status)}</div>` : ""}
+        <div class="exh-item">
+          <h3 class="exh-series-title">${esc(cat.name || "")}</h3>
+          ${cat.description ? `<p class="exh-series-desc">${esc(cat.description)}</p>` : ""}
+        </div>
+        ${gallery}
+      </div>`;
+  }).filter(Boolean).join("");
+
+  return `
+    <div class="container art-page">
+      <h2 class="section-title">Art</h2>
+      ${intro ? `<p class="page-intro">${esc(intro)}</p>` : ""}
+      <div class="exh-container">${groups}</div>
+    </div>`;
+}
+
+/* ---------- Views · Media ---------- */
+
+function viewMedia() {
+  const intro = (DATA.media && DATA.media.intro) || "";
+  const articles = mediaArticles();
+  const videos = mediaVideos();
+  const audios = mediaAudios();
+
+  const articlesHtml = articles.length ? `<div class="m-list--articles">${articles.map((a, i) => {
+    const catLabel = CAT_LABEL[a.category] || "";
+    const excerpt = a.excerpt || "";
+    return `
+      <a class="m-art-item" href="#/article/${i}">
+        <div class="m-art-item__meta">
+          ${catLabel ? `<span class="m-art-item__kicker">${esc(catLabel)}</span>` : ""}
+          ${a.date ? `<span class="m-art-item__date">${esc(a.date)}</span>` : ""}
+        </div>
+        <div class="m-art-item__divider"></div>
+        <div class="m-art-item__body">
+          <h3 class="m-art-item__title">${esc(a.title || "Untitled")}</h3>
+          ${a.subtitle ? `<div class="m-art-item__sub">${esc(a.subtitle)}</div>` : ""}
+          ${excerpt ? `<p class="m-art-item__excerpt">${esc(excerpt)}</p>` : ""}
+          <span class="m-art-item__more">Read →</span>
+        </div>
+      </a>`;
+  }).join("")}</div>` : `<p class="page-intro">暂无文章。</p>`;
+
+  const videosHtml = videos.length ? `<div class="m-list--videos">${videos.map(v => {
+    const cover = v.cover && v.cover.url;
+    const embedSrc = resolveVideoSrc(v.videoEmbed || "");
+    const fileUrl = v.videoFile && v.videoFile.url;
+    const player = embedSrc
+      ? `<div class="m-media-card__player"><iframe src="${esc(embedSrc)}" allowfullscreen frameborder="0" scrolling="no"></iframe></div>`
+      : fileUrl
+        ? `<div class="m-media-card__player"><video src="${esc(resolveImg(fileUrl))}" ${cover ? `poster="${esc(cover)}"` : ""} controls playsinline preload="metadata"></video></div>`
+        : cover
+          ? `<div class="m-media-card__player"><img src="${esc(rimg(cover, 1200))}" alt=""></div>`
+          : `<div class="m-media-card__player m-media-card__player--empty">▶</div>`;
+    return `
+      <article class="m-media-card">
+        ${player}
+        <div class="m-media-card__info">
+          <div>
+            <h3 class="m-media-card__title">${esc(v.title || "Untitled")}</h3>
+            ${v.description ? `<p class="m-media-card__desc">${esc(v.description)}</p>` : ""}
+          </div>
+          ${v.date ? `<span class="m-media-card__date">${esc(v.date)}</span>` : ""}
+        </div>
+      </article>`;
+  }).join("")}</div>` : `<p class="page-intro">暂无视频。</p>`;
+
+  const audiosHtml = audios.length ? `<div class="m-list--audios">${audios.map(a => {
+    const cover = a.cover && a.cover.url;
+    const fileUrl = a.audioFile && a.audioFile.url;
+    return `
+      <article class="m-media-card">
+        <div class="m-media-card__player m-media-card__player--audio">
+          <div class="cover">${cover ? `<img src="${esc(rimg(cover, 400))}" alt="">` : "♪"}</div>
+          ${fileUrl
+            ? `<audio controls preload="metadata" src="${esc(resolveImg(fileUrl))}"></audio>`
+            : `<div style="color:#666;font-size:14px;">(未上传音频文件)</div>`}
+        </div>
+        <div class="m-media-card__info">
+          <div>
+            <h3 class="m-media-card__title">${esc(a.title || "Untitled")}</h3>
+            ${a.description ? `<p class="m-media-card__desc">${esc(a.description)}</p>` : ""}
+          </div>
+          ${a.date ? `<span class="m-media-card__date">${esc(a.date)}</span>` : ""}
+        </div>
+      </article>`;
+  }).join("")}</div>` : `<p class="page-intro">暂无音频。</p>`;
+
+  return `
+    <div class="container media-page">
+      <h2 class="section-title">Media</h2>
+      ${intro ? `<p class="page-intro">${esc(intro)}</p>` : ""}
+      <div class="m-tabs" role="tablist">
+        <button class="m-tab is-active" data-tab="articles">Articles<span class="m-tab__n">${articles.length}</span></button>
+        <button class="m-tab" data-tab="videos">Videos<span class="m-tab__n">${videos.length}</span></button>
+        <button class="m-tab" data-tab="audios">Audios<span class="m-tab__n">${audios.length}</span></button>
+      </div>
+      <div class="m-pane is-active" data-pane="articles">${articlesHtml}</div>
+      <div class="m-pane" data-pane="videos">${videosHtml}</div>
+      <div class="m-pane" data-pane="audios">${audiosHtml}</div>
+    </div>`;
+}
+
+/* ---------- Views · Article detail ---------- */
+
+function viewArticle(idx) {
+  const list = mediaArticles();
+  const a = list[idx];
+  if (!a) {
+    return `<div class="container article-page"><a class="article-back" href="#/media">← Media</a><p>文章不存在。</p></div>`;
+  }
+  const catLabel = CAT_LABEL[a.category] || "";
+  const cover = a.cover && a.cover.url;
+  const body = mdToHtml(a.body || "");
+  const att = a.attachment;
+
+  return `
+    <article class="article-page">
+      <a class="article-back" href="#/media">← Media / back</a>
+      ${cover ? `<div class="article-cover"><img src="${esc(rimg(cover, 1600))}" srcset="${esc(srcsetFor(cover, [800, 1200, 1800]))}" sizes="(max-width: 760px) 100vw, 760px" alt=""></div>` : ""}
+      ${catLabel ? `<div class="article-kicker">${esc(catLabel)}</div>` : ""}
+      <h1 class="article-title">${esc(a.title || "Untitled")}</h1>
+      ${a.subtitle ? `<div class="article-sub">${esc(a.subtitle)}</div>` : ""}
+      ${a.date ? `<time class="article-date">${esc(a.date)}</time>` : ""}
+      <div class="article-body">${body || `<p>(正文暂缺)</p>`}</div>
+      ${att && att.url ? `
+        <a class="article-attach" href="${esc(resolveImg(att.url))}" target="_blank" rel="noopener">
+          ${SVG_DL}
+          <span>Download — ${esc(att.name || "")}</span>
+        </a>` : ""}
+    </article>`;
+}
+
+/* ---------- Views · About (独立页，复用 home 的 about section) ---------- */
+
+function viewAbout() {
+  const intro = DATA.intro || {};
+  const ab = DATA.about || {};
+  const tagline = (DATA.header && DATA.header.tagline) || "Communicator & Artist";
+  const brand = (DATA.header && DATA.header.siteName) || "Chenyu (Rain) Shen";
+
+  const paragraphs = String(intro.aboutParagraphs || "")
+    .split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const aboutParas = paragraphs.map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+
+  const photo = ab.photo && ab.photo.url ? ab.photo.url : "";
+
+  return `
+    <section class="about-section container" style="margin-top: 140px;">
+      <div class="about-profile">
+        ${photo ? `<div class="about-photo-wrapper"><img class="about-photo" src="${esc(rimg(photo, 900))}" srcset="${esc(srcsetFor(photo, [600, 900, 1200]))}" sizes="(max-width: 1024px) 90vw, 40vw" alt=""></div>` : ""}
+        <div class="about-info-name">${esc(brand)}</div>
+        <div class="about-info-details">
+          ${ab.email ? `<p><a href="mailto:${esc(ab.email)}">${esc(ab.email)}</a></p>` : ""}
+          ${ab.phone ? `<p>${esc(ab.phone)}</p>` : ""}
+          ${ab.location ? `<p>${esc(ab.location)}</p>` : ""}
+        </div>
+      </div>
+      <h2 class="about-title">${esc(tagline)}</h2>
+      <div class="about-text">${aboutParas}</div>
+    </section>`;
 }
 
 /* ---------- Markdown (mini) ---------- */
+
 function mdToHtml(src) {
   if (!src) return "";
   const lines = String(src).replace(/\r\n/g, "\n").split("\n");
@@ -301,262 +524,6 @@ function inlineMd(s) {
   return x;
 }
 
-/* ---------- Views ---------- */
-
-function viewHome() {
-  const intro = DATA.intro || {};
-  const heroItems = Array.isArray(intro.heroImages) ? intro.heroImages.filter(x => x && x.url) : [];
-  const hero = heroItems.length
-    ? `<div class="home__hero home__block">${heroItems.map((it, i) => `
-        <figure class="home__hero-item" data-idx="${i}">
-          <img src="${esc(rimg(it.url, 1200))}" srcset="${esc(srcsetFor(it.url, [600, 900, 1200, 1600]))}" sizes="(max-width: 720px) 100vw, 40vw" alt="${esc(it.caption || "")}" loading="lazy">
-          ${it.caption ? `<figcaption>${esc(it.caption)}</figcaption>` : ""}
-        </figure>`).join("")}</div>`
-    : "";
-
-  const paragraphs = String(intro.aboutParagraphs || "")
-    .split(/\n\s*\n/)
-    .map(s => s.trim())
-    .filter(Boolean);
-  const aboutHtml = paragraphs.length
-    ? `<div class="home__about home__block">${paragraphs.map(p =>
-        `<p>${esc(p).replace(/\n/g, "<br>")}</p>`
-      ).join("")}</div>`
-    : "";
-
-  const artCount = artCategories().reduce((n, c) => n + ((c.items || []).filter(x => x && x.url).length), 0);
-  const mediaCount = mediaArticles().length + mediaVideos().length + mediaAudios().length;
-
-  const nav = `
-    <div class="home__nav home__block">
-      <a class="home__tab" href="#/art">
-        <div class="home__tab-head">
-          <span class="home__tab-kicker">01</span>
-          <span class="home__tab-title">美术 · Art</span>
-        </div>
-        <div class="home__tab-meta">${artCount} works · ${artCategories().length} series</div>
-        <div class="home__tab-desc">Drawing · Photography · Mixed Media</div>
-        <div class="home__tab-arrow">→</div>
-      </a>
-      <a class="home__tab" href="#/media">
-        <div class="home__tab-head">
-          <span class="home__tab-kicker">02</span>
-          <span class="home__tab-title">传媒 · Media</span>
-        </div>
-        <div class="home__tab-meta">${mediaCount} pieces · Article · Video · Audio</div>
-        <div class="home__tab-desc">Science Communication · AI, Misinformation, Trust</div>
-        <div class="home__tab-arrow">→</div>
-      </a>
-    </div>`;
-
-  return `
-    <div class="page page--home">
-      ${hero}
-      ${aboutHtml}
-      ${nav}
-    </div>`;
-}
-
-function viewArt() {
-  const cats = artCategories();
-  const intro = (DATA.art && DATA.art.intro) || "";
-  if (!cats.length) {
-    return `<div class="page"><div class="empty">暂无作品，请到 <a href="/admin">/admin</a> 添加</div></div>`;
-  }
-  const introHtml = intro.trim() ? `<p class="page__lede">${esc(intro)}</p>` : "";
-
-  let globalIdx = 0;
-  const blocks = cats.map((cat, ci) => {
-    const items = (cat.items || []).filter(x => x && x.url);
-    if (!items.length) return "";
-    const block = galleryBlockHtml(items, cat.columns || "3", globalIdx);
-    globalIdx += items.length;
-    const statusLabel = { past: "Past", upcoming: "Upcoming", ongoing: "Ongoing" }[cat.status] || "";
-    return `
-      <section class="art-cat" id="cat-${ci}" data-cat-idx="${ci}">
-        <header class="art-cat__head">
-          <div class="art-cat__titleline">
-            ${statusLabel ? `<span class="art-cat__kicker">${esc(statusLabel)}</span>` : ""}
-            <h2 class="art-cat__title">${esc(cat.name || `Series ${ci + 1}`)}</h2>
-            <span class="art-cat__count">${items.length}</span>
-          </div>
-          ${cat.description ? `<p class="art-cat__desc">${esc(cat.description)}</p>` : ""}
-        </header>
-        ${block}
-      </section>`;
-  }).filter(Boolean).join("");
-
-  return `
-    <div class="page page--art">
-      <h1 class="page__title">Art</h1>
-      ${introHtml}
-      ${blocks}
-    </div>`;
-}
-
-const CAT_LABEL = {
-  news_story: "News Story",
-  research_highlight: "Research Highlight",
-  misinformation_analysis: "Misinformation Analysis",
-  interview: "Interview",
-  essay: "Essay",
-};
-
-function viewMedia() {
-  const intro = (DATA.media && DATA.media.intro) || "";
-  const articles = mediaArticles();
-  const videos = mediaVideos();
-  const audios = mediaAudios();
-  const introHtml = intro.trim() ? `<p class="page__lede">${esc(intro)}</p>` : "";
-
-  const tabHead = `
-    <div class="m-tabs" role="tablist">
-      <button class="m-tab is-active" data-tab="articles" role="tab">文章 <span class="m-tab__n">${articles.length}</span></button>
-      <button class="m-tab" data-tab="videos" role="tab">视频 <span class="m-tab__n">${videos.length}</span></button>
-      <button class="m-tab" data-tab="audios" role="tab">音频 <span class="m-tab__n">${audios.length}</span></button>
-    </div>`;
-
-  const articlesPane = `
-    <div class="m-pane is-active" data-pane="articles">
-      ${articles.length ? articleCardsHtml(articles) : `<div class="empty">暂无文章</div>`}
-    </div>`;
-  const videosPane = `
-    <div class="m-pane" data-pane="videos">
-      ${videos.length ? videoCardsHtml(videos) : `<div class="empty">暂无视频</div>`}
-    </div>`;
-  const audiosPane = `
-    <div class="m-pane" data-pane="audios">
-      ${audios.length ? audioCardsHtml(audios) : `<div class="empty">暂无音频</div>`}
-    </div>`;
-
-  return `
-    <div class="page page--media">
-      <h1 class="page__title">Media</h1>
-      ${introHtml}
-      ${tabHead}
-      ${articlesPane}${videosPane}${audiosPane}
-    </div>`;
-}
-
-function articleCardsHtml(list) {
-  return `<div class="m-list m-list--articles">${list.map((a, i) => {
-    const cover = a.cover && a.cover.url;
-    const catLabel = CAT_LABEL[a.category] || "";
-    return `
-      <a class="m-card m-card--article" href="#/article/${i}">
-        ${cover ? `<div class="m-card__cover"><img src="${esc(rimg(cover, 800))}" alt="" loading="lazy"></div>` : `<div class="m-card__cover m-card__cover--empty">📰</div>`}
-        <div class="m-card__body">
-          ${catLabel ? `<div class="m-card__kicker">${esc(catLabel)}</div>` : ""}
-          <h3 class="m-card__title">${esc(a.title || "Untitled")}</h3>
-          ${a.subtitle ? `<div class="m-card__sub">${esc(a.subtitle)}</div>` : ""}
-          ${a.excerpt ? `<p class="m-card__excerpt">${esc(a.excerpt)}</p>` : ""}
-          <div class="m-card__meta">
-            ${a.date ? `<time>${esc(a.date)}</time>` : `<time></time>`}
-            <span class="m-card__more">阅读全文 →</span>
-          </div>
-        </div>
-      </a>`;
-  }).join("")}</div>`;
-}
-
-function videoCardsHtml(list) {
-  return `<div class="m-list m-list--videos">${list.map(v => {
-    const cover = v.cover && v.cover.url;
-    const src = resolveVideoSrc(v.videoEmbed || "");
-    const hasEmbed = !!src;
-    const hasFile = v.videoFile && v.videoFile.url;
-    const player = hasEmbed
-      ? `<div class="m-card__video"><iframe src="${esc(src)}" allowfullscreen frameborder="0" scrolling="no"></iframe></div>`
-      : hasFile
-        ? `<div class="m-card__video"><video src="${esc(v.videoFile.url)}" ${cover ? `poster="${esc(cover)}"` : ""} controls playsinline preload="metadata"></video></div>`
-        : cover
-          ? `<div class="m-card__video"><img src="${esc(rimg(cover, 900))}" alt=""></div>`
-          : `<div class="m-card__video m-card__video--empty">▶</div>`;
-    return `
-      <article class="m-card m-card--video">
-        ${player}
-        <div class="m-card__body">
-          <h3 class="m-card__title">${esc(v.title || "Untitled")}</h3>
-          ${v.description ? `<p class="m-card__excerpt">${esc(v.description)}</p>` : ""}
-          ${v.date ? `<div class="m-card__meta"><time>${esc(v.date)}</time></div>` : ""}
-        </div>
-      </article>`;
-  }).join("")}</div>`;
-}
-
-function audioCardsHtml(list) {
-  return `<div class="m-list m-list--audios">${list.map(a => {
-    const cover = a.cover && a.cover.url;
-    const hasFile = a.audioFile && a.audioFile.url;
-    return `
-      <article class="m-card m-card--audio">
-        ${cover ? `<div class="m-card__cover"><img src="${esc(rimg(cover, 600))}" alt="" loading="lazy"></div>` : `<div class="m-card__cover m-card__cover--empty">♪</div>`}
-        <div class="m-card__body">
-          <h3 class="m-card__title">${esc(a.title || "Untitled")}</h3>
-          ${a.description ? `<p class="m-card__excerpt">${esc(a.description)}</p>` : ""}
-          ${hasFile ? `<audio controls preload="metadata" src="${esc(a.audioFile.url)}"></audio>` : `<div class="m-card__placeholder">（未上传音频文件）</div>`}
-          ${a.date ? `<div class="m-card__meta"><time>${esc(a.date)}</time></div>` : ""}
-        </div>
-      </article>`;
-  }).join("")}</div>`;
-}
-
-function viewArticle(idx) {
-  const list = mediaArticles();
-  const a = list[idx];
-  if (!a) {
-    return `<div class="page"><div class="empty">文章不存在 · <a href="#/media">返回传媒</a></div></div>`;
-  }
-  const catLabel = CAT_LABEL[a.category] || "";
-  const cover = a.cover && a.cover.url;
-  const body = mdToHtml(a.body || "");
-  const att = a.attachment;
-
-  return `
-    <div class="page page--article">
-      <a class="article__back" href="#/media">← Media</a>
-      ${cover ? `<div class="article__cover"><img src="${esc(rimg(cover, 1400))}" srcset="${esc(srcsetFor(cover, [800, 1200, 1800]))}" sizes="(max-width: 720px) 100vw, 900px" alt=""></div>` : ""}
-      <header class="article__head">
-        ${catLabel ? `<div class="article__kicker">${esc(catLabel)}</div>` : ""}
-        <h1 class="article__title">${esc(a.title || "Untitled")}</h1>
-        ${a.subtitle ? `<div class="article__sub">${esc(a.subtitle)}</div>` : ""}
-        ${a.date ? `<time class="article__date">${esc(a.date)}</time>` : ""}
-      </header>
-      <div class="article__body">${body || `<p class="empty">（正文暂缺）</p>`}</div>
-      ${att && att.url ? `
-        <a class="article__attach" href="${esc(att.url)}" target="_blank" rel="noopener">
-          ${SVG_DL}
-          <span>下载原稿 <small>${esc(att.name || "")}</small></span>
-        </a>` : ""}
-    </div>`;
-}
-
-function viewAbout() {
-  const ab = DATA.about || {};
-  const photo = ab.photo && ab.photo.url ? ab.photo.url : "";
-  const intro = DATA.intro || {};
-  const paragraphs = String(intro.aboutParagraphs || "")
-    .split(/\n\s*\n/)
-    .map(s => s.trim())
-    .filter(Boolean);
-  const bioHtml = paragraphs.length
-    ? paragraphs.map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("")
-    : "";
-  return `
-    <div class="page page--about">
-      ${photo ? `<div class="about__photo about__block"><img src="${esc(rimg(photo, 900))}" srcset="${esc(srcsetFor(photo, [600, 900, 1200]))}" sizes="(max-width: 768px) 100vw, 40vw" alt=""></div>` : ""}
-      <div class="about__text">
-        ${bioHtml ? `<div class="about__bio about__block">${bioHtml}</div>` : ""}
-        <div class="about__contact about__block">
-          ${ab.email ? `<div><strong>Email</strong> <a href="mailto:${esc(ab.email)}">${esc(ab.email)}</a></div>` : ""}
-          ${ab.phone ? `<div><strong>Phone</strong> ${esc(ab.phone)}</div>` : ""}
-          ${ab.location ? `<div><strong>Based in</strong> ${esc(ab.location)}</div>` : ""}
-        </div>
-        ${ab.footer ? `<div class="about__footer about__block">${esc(ab.footer)}</div>` : ""}
-      </div>
-    </div>`;
-}
-
 /* ---------- Video embed resolver ---------- */
 
 function resolveVideoSrc(input) {
@@ -593,32 +560,59 @@ function initMediaTabs() {
   });
 }
 
-/* ---------- Lightbox ---------- */
+/* ---------- Contrast gallery drag-to-scroll ---------- */
 
-function artItemsForLightbox() {
-  const out = [];
-  for (const cat of artCategories()) {
-    for (const it of (cat.items || [])) {
-      if (it && it.url) out.push(it);
-    }
-  }
-  return out;
+function initContrastDrag() {
+  app.querySelectorAll(".contrast-gallery").forEach(el => {
+    let down = false, startX = 0, startScroll = 0;
+    el.addEventListener("mousedown", e => {
+      down = true;
+      startX = e.pageX;
+      startScroll = el.scrollLeft;
+      el.style.cursor = "grabbing";
+    });
+    el.addEventListener("mouseup", () => { down = false; el.style.cursor = "grab"; });
+    el.addEventListener("mouseleave", () => { down = false; el.style.cursor = "grab"; });
+    el.addEventListener("mousemove", e => {
+      if (!down) return;
+      e.preventDefault();
+      el.scrollLeft = startScroll - (e.pageX - startX);
+    });
+  });
 }
 
+/* ---------- Lightbox ---------- */
+
 function initLightboxTargets() {
-  const r = currentRoute();
-  if (r.name === "art") {
-    const items = artItemsForLightbox();
-    app.querySelectorAll(".art-cat .jg__item").forEach(el => {
-      el.addEventListener("click", () => openLightbox(items, Number(el.dataset.idx)));
+  // 所有带 data-lbx 的元素点击触发 lightbox
+  // data-lbx="art" → 整个 Art 页展开所有图
+  // data-lbx="hero" → home 页 hero collage 5 张
+  app.querySelectorAll("[data-lbx]").forEach(el => {
+    el.addEventListener("click", (e) => {
+      // 防止 contrast-gallery 拖拽触发（拖动时 mouseup 可能被当 click，但实际 drag 不会 fire click）
+      const kind = el.dataset.lbx;
+      const idx = Number(el.dataset.idx);
+      const items = collectLightboxItems(kind);
+      if (items.length) openLightbox(items, idx);
     });
-  } else if (r.name === "home") {
-    const intro = DATA.intro || {};
-    const heroes = (intro.heroImages || []).filter(x => x && x.url);
-    app.querySelectorAll(".home__hero-item").forEach(el => {
-      el.addEventListener("click", () => openLightbox(heroes, Number(el.dataset.idx)));
-    });
+  });
+}
+
+function collectLightboxItems(kind) {
+  if (kind === "art") {
+    const out = [];
+    for (const cat of artCategories()) {
+      for (const it of (cat.items || [])) {
+        if (it && it.url) out.push(it);
+      }
+    }
+    return out;
   }
+  if (kind === "hero") {
+    const intro = DATA.intro || {};
+    return (intro.heroImages || []).filter(x => x && x.url);
+  }
+  return [];
 }
 
 let activeLightbox = null;
