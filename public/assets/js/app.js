@@ -163,10 +163,11 @@ function viewHome() {
   const brand = (DATA.header && DATA.header.siteName) || "Chenyu Rain Shen";
   const tagline = (DATA.header && DATA.header.tagline) || "Communicator & Artist";
 
-  // Hero title 拆两行：取 brand 空格切
-  const parts = brand.trim().split(/\s+/);
-  const titleLine1 = parts.slice(0, Math.ceil(parts.length / 2)).join(" ");
-  const titleLine2 = parts.slice(Math.ceil(parts.length / 2)).join(" ");
+  // Hero title 拆两行：先去括号，再按第一个空格切（对 "Chenyu (Rain) Shen" → "Chenyu" / "Rain Shen"）
+  const cleanBrand = brand.replace(/[()]/g, "").replace(/\s+/g, " ").trim();
+  const parts = cleanBrand.split(" ");
+  const titleLine1 = parts[0] || brand;
+  const titleLine2 = parts.slice(1).join(" ");
 
   const heroes = Array.isArray(intro.heroImages) ? intro.heroImages.filter(x => x && x.url) : [];
   const collageHtml = heroes.slice(0, 5).map((it, i) => `
@@ -175,7 +176,9 @@ function viewHome() {
 
   const paragraphs = String(intro.aboutParagraphs || "")
     .split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
-  const aboutParas = paragraphs.map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+  // Home 页 about-text 只显示前 2 段（完整内容在 /#/about）
+  const homeAboutParas = paragraphs.slice(0, 2).map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+  const hasMore = paragraphs.length > 2;
 
   const photo = ab.photo && ab.photo.url ? ab.photo.url : "";
   const artCount = artCategories().reduce((n, c) => n + ((c.items || []).filter(x => x && x.url).length), 0);
@@ -202,21 +205,24 @@ function viewHome() {
         </div>
       </div>
       <h2 class="about-title">${esc(tagline)}</h2>
-      <div class="about-text">${aboutParas}</div>
+      <div class="about-text">
+        ${homeAboutParas}
+        ${hasMore ? `<p><a class="about-more" href="#/about">Read full bio →</a></p>` : ""}
+      </div>
     </section>
 
     <section class="home-nav container">
       <h2 class="section-title">Explore</h2>
       <div class="home-nav-grid">
         <a class="home-nav-card" href="#/art">
-          <span class="home-nav-num">01 / Art</span>
-          <span class="home-nav-title">美术<small>${artCount} Works · ${artSeries} Series</small></span>
+          <span class="home-nav-num">01</span>
+          <span class="home-nav-title">Art<small>${artCount} Works · ${artSeries} Series</small></span>
           <span class="home-nav-desc">Drawing, photography, and mixed media built around contrast, tension, pairing, transformation, and peace.</span>
           <span class="home-nav-arrow">→</span>
         </a>
         <a class="home-nav-card" href="#/media">
-          <span class="home-nav-num">02 / Media</span>
-          <span class="home-nav-title">传媒<small>${mediaCount} Pieces · Article · Video · Audio</small></span>
+          <span class="home-nav-num">02</span>
+          <span class="home-nav-title">Media<small>${mediaCount} Pieces · Article · Video · Audio</small></span>
           <span class="home-nav-desc">Science communication on AI-generated media, misinformation, deepfakes, and public trust.</span>
           <span class="home-nav-arrow">→</span>
         </a>

@@ -119,12 +119,13 @@ main { min-height: 80vh; }
   margin-top: -5vh;
 }
 .hero-title {
-  font-size: 13.5vw;
-  line-height: 0.85;
-  font-weight: 600;
+  font-size: clamp(72px, 11vw, 180px);
+  line-height: 0.88;
+  font-weight: 700;
   color: #0d0d0d;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+  max-width: 72%;
 }
 .hero-subtitle {
   position: absolute;
@@ -268,8 +269,21 @@ main { min-height: 80vh; }
   margin: 0 auto;
   align-self: start;
 }
-.about-text p { margin-bottom: 28px; }
+.about-text p { margin-bottom: 24px; }
 .about-text p:last-child { margin-bottom: 0; }
+.about-text .about-more {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #000;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1px;
+  margin-top: 10px;
+  transition: opacity .2s;
+}
+.about-text .about-more:hover { opacity: 0.6; }
 
 /* ---------- Home navigation (美术 / 传媒 入口，置于 About 下方) ---------- */
 
