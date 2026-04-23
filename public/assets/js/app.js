@@ -13,24 +13,26 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
 }[c]));
 
 const IMG_BASE = "https://img.ggjj.app";
-// /cdn-cgi/image 是 CF Pro+ 的 Image Resizing 功能，免费计划不可用。
-// postimg / R2 public domain 本身已有 CDN，直接用原 URL，够快。
-const USE_CF_IMAGE = false;
-const IS_LOCAL = typeof location !== "undefined" && /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(location.host);
+// /cdn-cgi/image 只在挂在 ggjj.app zone 的域名下工作（zone 已订阅 Image Transformations）。
+// - *.ggjj.app → 启用，享受 WebP/AVIF 自动协商 + 动态缩放
+// - *.pages.dev / localhost → 关闭，直出原 URL（postimg 自己也有 CDN，够用）
+const HOST = typeof location !== "undefined" ? location.host : "";
+const IS_LOCAL = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(HOST);
+const USE_CF_IMAGE = !IS_LOCAL && /\.ggjj\.app$/.test(HOST);
 
 function resolveImg(url) {
   if (!url) return "";
   if (url.startsWith("/api/image/")) return IMG_BASE + "/" + url.slice("/api/image/".length);
   return url;
 }
-function rimg(url, _w) {
+function rimg(url, w) {
   const u = resolveImg(url);
   if (!u || !u.startsWith("http")) return u;
-  if (!USE_CF_IMAGE || IS_LOCAL) return u;
-  return `/cdn-cgi/image/width=${_w},format=auto,quality=85,fit=scale-down/${u}`;
+  if (!USE_CF_IMAGE) return u;
+  return `/cdn-cgi/image/width=${w},format=auto,quality=85,fit=scale-down/${u}`;
 }
 function srcsetFor(url, widths) {
-  if (!USE_CF_IMAGE || IS_LOCAL) return "";
+  if (!USE_CF_IMAGE) return "";
   return widths.map(w => `${rimg(url, w)} ${w}w`).join(", ");
 }
 

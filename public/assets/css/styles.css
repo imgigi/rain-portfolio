@@ -759,6 +759,11 @@ main { min-height: 80vh; }
   background: #000;
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  width: 70%;
+  max-width: 720px;
+}
+@media (max-width: 720px) {
+  .m-media-card__player { width: 100%; }
 }
 .m-media-card__player iframe,
 .m-media-card__player video {
