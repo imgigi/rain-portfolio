@@ -25,14 +25,22 @@ function resolveImg(url) {
   if (url.startsWith("/api/image/")) return IMG_BASE + "/" + url.slice("/api/image/".length);
   return url;
 }
+// CF Image Transformations 默认 origin allowlist 只包含同 zone（*.ggjj.app）
+// 外源（postimg.cc 等）直接返回原 URL。postimg 自己也是 CDN，够用。
+function isGgjjSource(u) {
+  return /^https?:\/\/[^/]*\.ggjj\.app(\/|$)/.test(u);
+}
 function rimg(url, w) {
   const u = resolveImg(url);
   if (!u || !u.startsWith("http")) return u;
   if (!USE_CF_IMAGE) return u;
+  if (!isGgjjSource(u)) return u;
   return `/cdn-cgi/image/width=${w},format=auto,quality=85,fit=scale-down/${u}`;
 }
 function srcsetFor(url, widths) {
   if (!USE_CF_IMAGE) return "";
+  const u = resolveImg(url);
+  if (!u || !u.startsWith("http") || !isGgjjSource(u)) return "";
   return widths.map(w => `${rimg(url, w)} ${w}w`).join(", ");
 }
 
