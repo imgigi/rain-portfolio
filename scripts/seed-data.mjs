@@ -39,13 +39,14 @@ function writeKV(kvId, key, jsonStr) {
   const tmp = path.join(ROOT, `.kv-${key}.tmp.json`);
   fs.writeFileSync(tmp, jsonStr);
   try {
+    // 新版 wrangler (3.x+) 默认就是 remote，没有 --remote flag；本地用 --local
     const args = [
       "wrangler", "kv", "key", "put",
-      "--namespace-id", kvId,
-      isLocal ? "--local" : "--remote",
       key,
-      `--path`, tmp,
+      "--namespace-id", kvId,
+      "--path", tmp,
     ];
+    if (isLocal) args.push("--local");
     console.log("→", args.join(" "));
     execSync("npx " + args.join(" "), { stdio: "inherit", cwd: ROOT });
   } finally {
