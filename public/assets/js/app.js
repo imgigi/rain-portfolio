@@ -459,14 +459,17 @@ function viewAbout() {
   const photo = ab.photo && ab.photo.url ? ab.photo.url : "";
 
   return `
-    <section class="about-section container" style="margin-top: 140px;">
+    <section class="about-section about-section--stack container" style="margin-top: 130px;">
       <div class="about-profile">
-        ${photo ? `<div class="about-photo-wrapper"><img class="about-photo" src="${esc(rimg(photo, 900))}" srcset="${esc(srcsetFor(photo, [600, 900, 1200]))}" sizes="(max-width: 1024px) 90vw, 40vw" alt=""></div>` : ""}
-        <div class="about-info-name">${esc(brand)}</div>
-        <div class="about-info-details">
-          ${ab.email ? `<p><a href="mailto:${esc(ab.email)}">${esc(ab.email)}</a></p>` : ""}
-          ${ab.phone ? `<p>${esc(ab.phone)}</p>` : ""}
-          ${ab.location ? `<p>${esc(ab.location)}</p>` : ""}
+        ${photo ? `<div class="about-photo-wrapper"><img class="about-photo" src="${esc(rimg(photo, 900))}" srcset="${esc(srcsetFor(photo, [600, 900, 1200]))}" sizes="(max-width: 720px) 90vw, 260px" alt=""></div>` : ""}
+        <div class="about-meta">
+          <div class="about-info-name">${esc(brand)}</div>
+          <div class="about-info-tag">${esc(tagline)}</div>
+          <div class="about-info-details">
+            ${ab.email ? `<p><a href="mailto:${esc(ab.email)}">${esc(ab.email)}</a></p>` : ""}
+            ${ab.phone ? `<p>${esc(ab.phone)}</p>` : ""}
+            ${ab.location ? `<p>${esc(ab.location)}</p>` : ""}
+          </div>
         </div>
       </div>
       <h2 class="about-title">${esc(tagline)}</h2>

@@ -256,21 +256,95 @@ main { min-height: 80vh; }
   letter-spacing: -1px;
   line-height: 1;
   align-self: end;
-  text-align: center;
+  text-align: left;
 }
 .about-text {
   grid-column: 2;
   grid-row: 2;
-  font-size: 19px;
-  line-height: 1.6;
-  text-align: center;
+  font-size: 18px;
+  line-height: 1.65;
+  text-align: left;
   color: #333;
-  max-width: 90%;
-  margin: 0 auto;
+  max-width: 640px;
   align-self: start;
 }
-.about-text p { margin-bottom: 24px; }
+.about-text p { margin-bottom: 22px; }
 .about-text p:last-child { margin-bottom: 0; }
+
+/* ---------- About page (独立页：上下排列) ---------- */
+
+.about-section--stack {
+  display: block;
+  grid-template-columns: none;
+  grid-template-rows: none;
+  min-height: auto;
+  margin-top: 60px;
+  margin-bottom: 80px;
+  max-width: 880px;
+  padding-top: 0;
+}
+.about-section--stack .about-profile {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 40px;
+  height: auto;
+  margin-bottom: 50px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #000;
+}
+.about-section--stack .about-photo-wrapper {
+  width: 260px;
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+.about-section--stack .about-photo {
+  max-height: none;
+  aspect-ratio: 3 / 4;
+}
+.about-section--stack .about-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+.about-section--stack .about-info-name {
+  font-size: 32px;
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.about-section--stack .about-info-tag {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #666;
+}
+.about-section--stack .about-info-details {
+  font-size: 14px;
+  color: #333;
+}
+.about-section--stack .about-info-details p { margin-bottom: 2px; }
+.about-section--stack .about-title {
+  font-size: clamp(30px, 3.4vw, 44px);
+  text-align: left;
+  margin-bottom: 30px;
+  padding-top: 10px;
+}
+.about-section--stack .about-text {
+  max-width: none;
+  font-size: 17px;
+  line-height: 1.75;
+  text-align: left;
+}
+
+@media (max-width: 720px) {
+  .about-section--stack .about-profile { flex-direction: column; }
+  .about-section--stack .about-photo-wrapper { width: 100%; max-width: 320px; }
+}
+
 .about-text .about-more {
   display: inline-block;
   font-size: 12px;
