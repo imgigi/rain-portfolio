@@ -1,0 +1,323 @@
+{
+  "header": {
+    "siteName": "Chenyu (Rain) Shen",
+    "tagline": "Communicator & Artist",
+    "copyright": "© Chenyu Shen"
+  },
+  "intro": {
+    "heroImages": [
+      {
+        "url": "https://i.postimg.cc/Qtk6Jrkx/IMG-3489.png",
+        "caption": "Texture"
+      },
+      {
+        "url": "https://i.postimg.cc/3RCLFHCw/IMG-3490.png",
+        "caption": "Landscape"
+      },
+      {
+        "url": "https://i.postimg.cc/hjbC1qbf/IMG-3491.png",
+        "caption": "Portrait"
+      },
+      {
+        "url": "https://i.postimg.cc/1tZCFz6Z/IMG-3492.png",
+        "caption": "Architecture"
+      },
+      {
+        "url": "https://i.postimg.cc/N0xTNGVS/IMG-3488.png",
+        "caption": ""
+      }
+    ],
+    "aboutParagraphs": "Chenyu (Rain) Shen is a communicator and artist who uses both writing and visual work to help people connect with ideas, emotions, and experiences that are often difficult to put into words. Through photography, mixed media, and storytelling, Rain creates work that is thoughtful, reflective, and grounded in close attention to both feeling and form.\n\nFor Rain, communication and art are not separate fields, but two ways of making meaning. A piece of writing can shape how people understand a subject, just as an image can carry emotion, tension, and perspective in ways that words sometimes cannot. By working across both, Rain is interested in creating work that is clear, human, and open to interpretation.\n\nAt the center of this practice is a desire to make complexity feel more approachable. Whether the work begins with an image or with language, the goal is to create something that invites reflection and helps others see more carefully.\n\nScience communication matters most when new technologies move faster than the public’s ability to interpret them. This portfolio brings together my work on AI-generated media, misinformation, deepfakes, and AI governance, a set of issues that sits at the intersection of science, communication, and public trust. Across the pieces collected here, I return to one central question: when artificial intelligence can imitate evidence, shape persuasion, and influence what people believe, how should science communication help audiences make sense of it?\n\nThe portfolio is designed for a broad, non-expert audience, including students, general readers, and anyone trying to understand how AI is changing the information environment. At the same time, some pieces speak more directly to readers interested in policy, platform governance, and the ethics of emerging technologies. Rather than treating science communication as simply “explaining research,” this portfolio approaches it as a practice of translation, framing, storytelling, and public responsibility. Each piece takes up the same broader topic from a different angle, allowing me to adapt tone, evidence, and structure to suit the needs of different formats and audiences.\n\nThe collection includes a research article highlight on synthetic media and deepfake detection, a misinformation analysis focused on AI-generated wildfire images, and a science news story that examines whether labeling AI-generated content actually changes persuasion. It also includes narrative and performance-based work, including a podcast script that turns scientific findings and policy debates into a more conversational and accessible format. Together, these pieces show how the same scientific issue can be communicated through summary, reporting, analysis, narrative framing, and spoken performance.\n\nAs a whole, this portfolio reflects my growth in thinking about science communication not only as the presentation of facts, but also as the design of trust. In the context of AI, that challenge has become especially urgent. Realism no longer guarantees authenticity, labels do not always change minds, and technical systems are never completely neutral. Through this portfolio, I aim to show how science communication can help audiences move beyond surface impressions and engage more critically with the scientific, social, and political questions that AI now raises."
+  },
+  "art": {
+    "intro": "Drawing, photography, and mixed media — visual work built around contrast, tension, pairing, transformation, and peace.",
+    "categories": [
+      {
+        "name": "Tension",
+        "status": "past",
+        "description": "",
+        "columns": "3",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/Zqn60z0K/DSC03646.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/YS0QjBjF/DSC03651.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/430V92h1/DSC03662.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/hGYTdZ7L/DSC03667.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/wBMD3Y3X/DSC03670.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/8CYM6Xr4/DSC03672.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/k5HKbYtc/IMG-5317.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/MGLVQ3jL/IMG-5427.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/TPsgDNDv/IMG-7169.jpg",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "name": "Pair",
+        "status": "past",
+        "description": "",
+        "columns": "2",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/JnKqBzxF/IMG-3479.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/Kjz57hsR/IMG-3480.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/Wz37mcf6/IMG-3481.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/8c5bdgnL/IMG-3482.png",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "name": "Transformation",
+        "status": "past",
+        "description": "",
+        "columns": "3",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/9QF7NHdk/IMG-4786.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/RZVHbx7b/IMG-4787.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/t4CxmGd0/IMG-4788.jpg",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "name": "Peace",
+        "status": "past",
+        "description": "",
+        "columns": "4",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/xTBPm7Gk/39b5fda14096638d61f2067dbeb481f3.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/8Pxbv3d1/4de2bc0112871a0e1e8ad83838d97c02.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/Qxvq7PgF/a3956e77a259f99454d76b8e57bbd7b0.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/pX3Bj7Qy/d0ce23ca1a146678132f08b53e236767.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/sDbJW8PX/dbe13aeae7f4daed4e51d21411bcaa59.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/28gxWJdW/f2f7c407492d7591dde8849b985b9887.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/VN8BGCVz/IMG-3478.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/X7tg5hK8/IMG-7660.jpg",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "name": "Contrast",
+        "status": "upcoming",
+        "description": "",
+        "columns": "3",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/Fs4qSYhG/DSC00967.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/brX53Jkg/DSC00983.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/wMhGPpQF/DSC00987.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/BbxVy0Bk/IMG-3483.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/HnQhKg9P/IMG-3484.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/hv95wB1C/IMG-3485.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/3rpVWXQk/IMG-3486.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/qBnSgsHj/IMG-3487.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/prD67HB2/Screenshot-2026-01-03-at-03-13-12.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/dQdpD2cL/Screenshot-2026-01-03-at-03-13-21.png",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/59vTjBWw/Screenshot-2026-01-03-at-03-14-23.png",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "name": "Photography",
+        "status": "ongoing",
+        "description": "",
+        "columns": "3",
+        "items": [
+          {
+            "url": "https://i.postimg.cc/Cn41vdCY/1.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/n91zdMKx/2.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/30ZRLWX6/3.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/FHL4v7Vv/Weixin-Image-2026-01-27-195734-163.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/ZKgSXrp5/Weixin-Image-2026-01-27-195704-481.jpg",
+            "caption": ""
+          },
+          {
+            "url": "https://i.postimg.cc/m2qsKQCD/Weixin-Image-2026-01-27-195739-139.jpg",
+            "caption": ""
+          }
+        ]
+      }
+    ]
+  },
+  "media": {
+    "intro": "Science communication work on AI-generated media, misinformation, and public trust — across news reporting, research highlights, misinformation analysis, interview, video, and podcast.",
+    "articles": [
+      {
+        "title": "AI Labels May Not Change Minds And Moderation Tools May Not Be Neutral",
+        "subtitle": "Research commentary on a 2026 PNAS Nexus study",
+        "category": "news_story",
+        "cover": null,
+        "excerpt": "Simply labeling a message as “AI-generated” does not significantly reduce how persuasive people find it, according to a 2026 study published in PNAS Nexus. In a preregistered survey experiment with American adults, resea…",
+        "body": "Simply labeling a message as “AI-generated” does not significantly reduce how persuasive people find it, according to a 2026 study published in PNAS Nexus. In a preregistered survey experiment with American adults, researchers found that disclosure labels had little measurable effect on participants’ attitudes, the credibility they assigned to messages, or their willingness to share them. The findings challenge a key assumption behind emerging AI transparency policies.\n\nLawmakers increasingly treat disclosure requirements as a frontline defense against misinformation and synthetic media. If labeling alone does not meaningfully reduce persuasion, transparency mandates may offer less protection than policymakers expect. The findings also raise broader questions about how platforms moderate content. Separate research from Vanderbilt University suggests that automated misinformation detection systems can have uneven effects across political ideologies.\n\nIn the PNAS Nexus study, researchers randomly assigned participants to view persuasive social and political messages either labeled as AI-generated or presented without disclosure. By measuring changes in opinion and behavioral intentions, the team isolated the causal effect of labeling. Across conditions, the presence of an AI disclosure did not produce a statistically meaningful reduction in persuasive impact. Participants exposed to labeled content were roughly as likely to shift their views as those who saw identical but unlabeled messages.\n\nBecause the experiment was preregistered and randomized, the results provide strong evidence that awareness of AI origin does not automatically trigger skepticism. One interpretation is that people evaluate messages based primarily on alignment with prior beliefs rather than production method. \n\nWhile labeling may not substantially alter persuasion, platforms also rely on automated detection systems to flag or downrank misinformation. A Vanderbilt-led study presented at WebSci 2023 examined how misinformation detection algorithms perform across political ideologies and found that labeling strategies can influence both accuracy and the distribution of errors. The researchers tested how different article-labeling assumptions affected the model’s performance. They found that changes designed to improve overall accuracy could still produce uneven error rates across ideological groups. Karun Parek, a policy analyst at Vanderbilt’s Policy Accelerator, said these kinds of governance choices also raise broader concerns about who is accountable when institutions depend too heavily on outside firms. “The issue with outsourcing is that the accountability is definitely going to be less,” he said. “If you outsource everything, you can create these rather opaque system markets of AI firms.”\n\nTogether, the studies highlight two different weak points in today’s synthetic-media safeguards. The PNAS Nexus experiment questions whether disclosure labels change how people process persuasive content, while the Vanderbilt work shows that the performance of misinformation detectors can shift depending on labeling choices and can vary across ideological categories. In policy terms, the research suggests that both “tell the user “Strategies and “let the algorithm decide” strategies need careful testing, because their effects are not guaranteed or uniform.\n\nAs generative AI tools become more integrated into political communication and online platforms, debates about how to govern synthetic media are accelerating. The new research suggests that solving the misinformation problem will require more than simply tagging content or deploying classifiers. Parek said the challenge now extends beyond regulation alone. “I think the question of regulation is still always going to be present,” he said, “but it’s also now the question of how is AI beneficial for society once it’s here.” The harder question may be how to design systems that both meaningfully influence user behavior and maintain fairness across diverse communities.\n\nWork Cited\n\nGalle, I., et al. (2026). Labeling messages as AI-generated does not reduce their persuasive effects. PNAS Nexus, 5(2), pgag008.\n\nhttps://academic.oup.com/pnasnexus/article/5/2/pgag008/8465366\n\nPark, J., et al. (2023). Misinformation Detection Algorithms and Fairness across Political Ideologies: The Impact of Article Level Labeling. WebSci 2023.\n\nhttps://behavioralinformatics.org/wp-content/uploads/sites/36/2024/05/Misinformation_Detection_Algorithms_and_Fairness_across_Political_Ideologies_The_Impact_of_Article_Level_Labeling.pdf",
+        "attachment": null,
+        "date": "2026-03-17"
+      },
+      {
+        "title": "AI-Generated Wildfire Images Circulated as Real (2025)",
+        "subtitle": "How AI-generated wildfire images spread as real news",
+        "category": "misinformation_analysis",
+        "cover": null,
+        "excerpt": "In 2025, AI-generated images depicting neighbourhoods engulfed in flames circulated widely on social media with the claim that they showed real, ongoing wildfire damage. The misinformation claim was straightforward: the …",
+        "body": "In 2025, AI-generated images depicting neighbourhoods engulfed in flames circulated widely on social media with the claim that they showed real, ongoing wildfire damage. The misinformation claim was straightforward: the images were authentic photographs documenting active disaster scenes. Fact-checkers at AFP later confirmed that the visuals were synthetic and did not correspond to real wildfire events.\n\nThe myth gained traction because the images looked convincingly real. Historically, photographs have functioned as documentary evidence, especially during natural disasters. When dramatic visuals appear during breaking news, audiences often treat them as immediate proof. The circulated wildfire images showed detailed flames, smoke patterns, damaged homes, and atmospheric lighting consistent with professional disaster photography. Captions framed the posts as urgent updates. Because there was no disclosure that the images were AI-generated, many viewers interpreted them as factual documentation.\n\nThe fallacy behind the claim lies in equating visual realism with authenticity. Advances in generative artificial intelligence now allow users to produce photorealistic scenes from text prompts alone. Diffusion probabilistic models, introduced by Ho, Jain, and Abbeel (2020), generate images by gradually refining random noise into structured visuals. Later developments such as latent diffusion models (Rombach et al., 2022) improved image resolution and accessibility, enabling widely available systems to generate highly detailed, realistic outputs.\n\nThese technical features help explain why the misinformation was persuasive. Diffusion models are trained on large datasets of real-world photographs, including images of fire, smoke, and residential landscapes. As a result, generated outputs replicate realistic textures, lighting gradients, and environmental composition. When viewers encounter such images during unfolding events, they rely on visual plausibility rather than verifying the source. The scientific research behind these models does not claim that synthetic images are factual. However, the models’ ability to reproduce photographic cues makes them effective tools for creating believable but false documentation.\n\nAFP’s fact-check identified several inconsistencies undermining the authenticity claim. Some structures appeared distorted, fire behavior lacked natural variation, and certain elements blended unnaturally. There was no corroborating coverage from established news organizations or local emergency agencies documenting the specific scenes depicted. Reverse image searches failed to connect the visuals to verified reporting. These signals contradicted the claim that the images showed real wildfire damage.\n\nCritical readers could have identified additional credibility cues. Legitimate disaster coverage typically appears across multiple reputable outlets simultaneously. Official agencies issue updates that can be cross-referenced. Authentic news photography usually includes identifiable sourcing or metadata. In contrast, the circulated images lacked attribution and appeared primarily through social media accounts rather than recognized reporting institutions. The combination of dramatic imagery and urgent captions without sourcing should prompt skepticism.\n\nReinforcing the fact requires emphasizing that the images were synthetic and not documentation of real events. The scientific research enabling diffusion models focuses on improving image synthesis, not on representing reality. The misinformation arose from how the images were presented, not from inaccuracies in the underlying research. When synthetic visuals are introduced into fast-moving information environments without disclosure, they can be mistaken for evidence.\n\nPreventing similar misinformation requires multiple strategies. Platforms can implement clearer labeling for AI-generated content and reduce amplification of unverified disaster imagery. News organizations can reinforce verification standards before sharing user-generated visuals. Researchers are developing watermarking and provenance systems to help identify synthetic origin, though adoption remains uneven. Media literacy efforts can also emphasize that realism alone is no longer a reliable indicator of authenticity.\n\nThe wildfire case underscores a broader shift in the relationship between images and evidence. Visual realism, once treated as implicit proof, can now be manufactured. As generative AI continues to improve, credibility must depend on verification, corroboration, and transparent sourcing rather than appearance alone.\n\nAFP Fact Check. (2025). AI-generated wildfire images falsely presented as real disaster scenes. AFP.\n\nHo, J., Jain, A., & Abbeel, P. (2020). Denoising diffusion probabilistic models. Advances in Neural Information Processing Systems, 33.\n\nRombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-resolution image synthesis with latent diffusion models. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR).",
+        "attachment": null,
+        "date": "2026-02-15"
+      },
+      {
+        "title": "Synthetic Media and Political Trust",
+        "subtitle": "Audio and video cues shape deepfake detection",
+        "category": "research_highlight",
+        "cover": null,
+        "excerpt": "New experiments show that people spot political deepfakes, AI-generated contents made to look and sound real, more accurately when they can hear or watch the speaker than when they read text alone. ",
+        "body": "Audio and video cues shape deepfake detection\n\nNew experiments show that people spot political deepfakes, AI-generated contents made to look and sound real, more accurately when they can hear or watch the speaker than when they read text alone. \n\nResearchers at Northwestern University and the MIT Media Lab ran online studies with 2,215 participants, presenting the same speeches as transcripts, audio clips, silent video, or full video with audio. Their experiment indicates that accuracy of detecting deepfake content rose almost 30% from transcripts to with audio and 40% with video with audio, suggesting that delivery cues drive detection of Al-generated contents. \n\nThese results suggest credibility judgments about a speech’s authenticity depend more on how it is presented than on its wording, with stakes for journalism and legal evidence. \n\nGroh, M. et al. Human detection of political speech deepfakes across transcripts, audio, and video. Nature Communications (2024). https://doi.org/10.1038/s41467-024-51998-z \n\nAutomated Detection of Synthetic Video\n\nVisual attention reveals hidden deepfake artifacts\n\nSubtle visual inconsistencies in faces can be used to reliably detect deepfake videos using machine learning. \n\nResearchers at Poornima University and Manipal University Jaipur in Jaipur, India developed a deep learning model that focuses on small visual errors left behind when AI alters a face. There are unnatural textures, distorted edges, or inconsistent facial features. The model analyzes individual video frames tracking how facial details change over time, allowing it to catch inconsistencies invisible to humans. When tested across multiple deepfake sources, the system outperformed existing detection methods. \n\nAs deepfake content become more realistic and widespread, automated tools like this may be critical for protecting trust in digital media.\n\nLal, K. et al. Deepfake video deception detection using visual attention-based method. Scientific Reports (2025). https://doi.org/10.1038/s41598-025-23920-0",
+        "attachment": null,
+        "date": "2026-02-02"
+      },
+      {
+        "title": "Interview Transcript · Public AI & Governance",
+        "subtitle": "",
+        "category": "interview",
+        "cover": null,
+        "excerpt": "A conversation exploring what 'public AI' means, why governments are investing in it, and the tension between open access and national priorities.",
+        "body": "Thank you so much and this is going to be very casual and just like some questions relating with my sort of like research about the AI usage and then also I just wanted to gain like a professional point of view regarding to my topic because I've read your paper about like the the AI usage and all the governance controls. So it's going to be just like question run through if anything that's that you find is not capable of entering just we can skip anyways.\n\nLet's just start. Your paper talks about like the global rise of public AI for someone like who is not familiar with the term. Could you explain what public AI means and why governments around the world are suddenly interested in building this? Yeah, I would think if public AI is direct government attempts to help build up and play an influential role in the industry.\n\nThat can take many shapes and forms. It can be more direct action of governments building at their own public infrastructure. It can mean governments building their own models but it can also suggest me governments working in collaboration with firms potentially just building infrastructure that it then provides to the private sector. So why governments are doing it more? It's it's the fact that AI has become sort of the dominant like technological part of the conversation.\n\nAs artificial intelligence is kind of seemingly will be a game changer in how our economies will function. We'll see whether or not that holds true but at the moment governments are making the bet that it will be influential. It will be important and it is becoming increasingly in the interest of various governments to try and play a more active role and that's kind of part of a broader shift that we've been seeing in the global economy and political spheres that they we've been trying to think of issues in different ways and in this case for artificial intelligence it's been taking a more public action rather than just leading it solely to the technology private sector. Thank you so much. Exactly. Second question would be a lot of current policy discussion focus on regulating AI system. For example like requiring labels for AI generated contents or improving moderation tools and your paper suggests that governments are also starting to build AI infrastructure themselves. So how does this shift from regulation to development change the way that we think about AI governance? I think the question of regulation is still always going to be present even even with governments being more active in the developmental role.\n\nThat I think is not going to change but with how governance, how this construction continues forward there's valid plans of trying to move the technology forward and creating more development and capturing more of the economic benefits but there's also the question of how does the public benefit. I think the governments want to both win the AI competition whatever that might be but also try and get some sort of benefit from it which I think is a very separate conversation from the questions of regulation. I think regulation is also important but it's also now the question of how is AI beneficial for society once it's here. Thank you. In our paper you outlined several different models for how governments are building public AI such as outsourcing to private companies and research networks and public options. So what are the biggest trade off policy maker face when choosing between these approaches? Yeah so we discussed in the paper four different major models for what we've been seeing with public AI development. The first one is outsourced provisioning. Outsource provisioning's major benefit is that the private sector has been a big part in development of AI and by the nature of it if you outsource a lot of the governmental work of developing it of integrating into government systems and infrastructure however that it goes about these companies are very well set up to move fast in ways that it's not necessarily as easy for governments to do if they bring in house themselves because governments might not necessarily have the ability to might not have the expertise and they might not have the ability to financially compete for the expertise on a salary by salary basis. So these private companies are rather well set up to move fast. The issue with outsourcing is that the accountability is definitely going to be less and there's there's an ongoing question of a monopolization in the field. If you outsource everything you can create these rather opaque system markets of AI firms who if you give it to four or five major companies all the government contracts might develop a lead that is impossible for any new competitors to enter.\n\nThe next different the next model of of public AI that we discuss is network collaboration that is a research and not a research oriented model. So this is governments utilizing their public research centers as well as universities with some definitely some collaboration with private sector players not profits etc but mostly like academics university public researchers coming together to develop their own resources for example the national labs that the Energy Department runs has been part of this model of collaborating with universities to develop AI infrastructure and the benefit of that is that it's public generally publicly owned or to some degree public stakes in AI infrastructure in AI technology. The tradeoff is that it's mostly research oriented so it you can never really guess how fast any development might happen and any long-term benefits derived from it are kind of hard to judge that the scalability question is different because it's just harder to scale those kinds of systems compared to other models.\n\nThe next major model is state capitalism basically and this is the state going a little bit farther than house supervisioning and operating through some form of public corporations or in the case of some countries like individual leaders private wealth coordinating the air wealth as well as coordinating the action of publicly owned companies in collaboration with government policy to develop AI fast. That does have the benefit of having AI seeing AI leave pretty fast.\n\nThis example is pretty pretty present with China where Chinese government investment funds are heavily involved in investing in AI firms but the tradeoff is opacity you really can't tell the ownership structures is still very opaque the government is still in its own way in that incentive ice cream AI monopolies and whether or not those benefits will pass to the citizenry is kind of hard to tell. It can also take in the shape of more like the UAE where the leadership of the UAE are directly invested in AI firms while also holding government positions where it's a little bit more clear that a lot of the potential benefits from AI are unlikely to trickle down into the citizenry and then the last major model we discussed is public options which goes a little bit farther than the network collaboration model where governments are just relying on the generally a hard part of research networks and going farther into developing like through that agency levels public infrastructure or in AI whether that be data centers AI tools whether that be working towards building something that can be more competitive with the actual private sector that's completely separate that serves a more expansive goal than just your research functions like the network collaboration model.\n\nThank you so much that makes so much sense for all the models that's there and my next question would be because because my report looks at like research on showing that labeling AI generated content may not significantly change how like how persuasive people find messages if technical fixes like labels are limited what kind of broader institutional or policy approaches might be more effective in dealing with misinformation specifically in the AI areas.\n\nI'm going to be honest with you I I'm not sure I if you want you can send that question to me in an email and I can try giving you a more well thought out answer that's that's a question I haven't I just simply haven't thought about that much in regards to AI misinformation in regards to the context of this paper. Sure sure thank you and your paper also focused like large portion about like international competition angle and because it compares like national strategies including like countries like United States China and all of those countries so what does the global landscape tell us about how AI development in becoming part of the geo-political competition? What is AI telling us about geo-political competition? Yes I think geo-political competition is very much intertwined with which is general economic competition and a lot of the pitch with AI is that AI is going to reshape the economy so I mean this is really present in the general dialogue of the U.S. China rivalry in that the United States and China are both pushing AI investments in one shape or another. I think this is very much in line with the AI competition is largely a repeat of the broader geopolitical competition space. China is investing in AI firms and is investing in AI talent pipelines and in research and the U.S. is doing the same largely speaking in the hopes of having some sort of dominance. Generally speaking the digital revolution was defined by American big tech companies and everyone wants to take the to lead the charge on the next level of what AI is presumably supposed to be and this is also playing out in the way that Europe is wanting to be more involved because they kind of miss out a lot of the benefits of the digital revolution and the shifting relationships of the geopolitical space is making Europeans more inclined to develop their own AI capacity. That might be with Europe developing its own public AI infrastructure as well as through direct governmental incentives and partnerships with local firms. For example, France has pushed to make Mistral AI a national champion. Denmark has been working very closely with Novo Nordisk, which is the developers of what's it called? The GLP one.\n\nGod, open those epic. The other epic developer, they've been working very very closely with that company to develop their own public AI infrastructure in a way that makes them a little bit more independent relative to the US and China. And in other countries like India are seeing AI as an X level of economic activity. So they're incentivized to invest whereas the UAE and the Middle Eastern States are looking to just diversify their economies in general way for what and that's part of their reasons to invest in AI. I think a lot of it is just it's just a continuation of these current dynamics that we've been seeing across the world. And that's been shaping how they've been investing in AI and the level of it. But I wouldn't necessarily think of it as a separate thing.\n\nGeopolitical competition and AI development are very much intertwined. Sure. Sure. Of course. Thank you. And one last question to conclude is what's your opinion towards future AI governance? Looking ahead, do you think future of AI governance will focus more on regulating private companies or governments building public alternatives? Honestly, it's hard to know at this point. I think we'll see it. It definitely will looks like it will be more of the regulatory model.\n\nAt least from the US perspective, the US seems far more our incentivized to to regulate eight of its own companies, especially because the first AI firms were US ones. That's Google and Chechi OpenAI and anthropic. The US is going to be incentivized. Do I think that there could be a future where the US developed for public options? It's possible. I would like to think so.\n\nBut that future is definitely a couple of years up from now. I do think that people are definitely taking steps towards it. New York and California both want to take more public action on AI. New York has its empire AI initiative, which has been a pretty good leader on that. But the question of scale is still to be seen. Other places are looking at more public activity in a way that's not necessarily as driven by the private sector. Trying to once again, obviously through its state capitalist endeavors, through public investment in AI firms.\n\nBut it's still in a way more regulatory oriented rather than public option development. The part of it is just that this race is still very niche. We are very far in AI development, and yet there are still so much farther to go. That's kind of the difficult thing of trying to judge what the future will look like, because for all we know the technology will be completely different from a year from now, like it was a year ago. Today, I mean, people are using AI way more right now than they were a year ago, and a year before that. And no one was thinking about this before Open AI launch chat TPT in November of '22. So I think it definitely will have to be away and see. Maybe new elected officials, new governments will be incentivized to think differently.\n\nBut for the moment, I'm inclined to think it will probably end up being more regulatory oriented rather than public option development. But we can see. Sure, sure. Thank you so much. Thank you so much. Let me just pause. Let me just stop.",
+        "attachment": null,
+        "date": "2026-03-27"
+      }
+    ],
+    "videos": [
+      {
+        "title": "CSET 2100 · Science Video",
+        "description": "A short science video on AI-generated media and public trust.",
+        "cover": null,
+        "videoFile": null,
+        "videoEmbed": "",
+        "date": "2026-04-12"
+      }
+    ],
+    "audios": [
+      {
+        "title": "Mini Podcast · AI, Moderation, and Trust",
+        "description": "A short-form podcast episode turning the research into a conversation.",
+        "cover": null,
+        "audioFile": null,
+        "date": "2026-03-29"
+      }
+    ]
+  },
+  "about": {
+    "photo": {
+      "url": "https://i.postimg.cc/Vsb0dJgR/72534cd9341249aaf84ef5d634bcb3d2.jpg",
+      "alt": "Chenyu Rain Shen"
+    },
+    "email": "chenyu.shen0521@gmail.com",
+    "phone": "+1 (615) 881-0408",
+    "location": "Nashville / Wuxi",
+    "footer": ""
+  }
+}

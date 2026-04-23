@@ -1,0 +1,299 @@
+{
+  "site": {
+    "title": "Chenyu (Rain) Shen",
+    "siteId": "rain"
+  },
+  "sections": [
+    {
+      "id": "header",
+      "label": "站点设置",
+      "type": "group",
+      "fields": [
+        {
+          "id": "siteName",
+          "label": "站点名（顶部 logo）",
+          "type": "text",
+          "placeholder": "Chenyu (Rain) Shen"
+        },
+        {
+          "id": "tagline",
+          "label": "副标题（logo 下方）",
+          "type": "text",
+          "placeholder": "Communicator & Artist"
+        },
+        {
+          "id": "copyright",
+          "label": "底部小字",
+          "type": "text",
+          "placeholder": "© Chenyu Shen"
+        }
+      ]
+    },
+    {
+      "id": "intro",
+      "label": "首页 · 自我介绍",
+      "type": "group",
+      "fields": [
+        {
+          "id": "heroImages",
+          "label": "顶部展示图（3-5 张）",
+          "type": "galleryUrl",
+          "caption": true,
+          "help": "主页打开时最上方的展示图。先到 postimg.cc 上传原图 → 复制 Direct link → 粘贴到下面。"
+        },
+        {
+          "id": "aboutParagraphs",
+          "label": "自我介绍（段落之间空一行）",
+          "type": "textarea",
+          "rows": 14,
+          "placeholder": "About ……\n\nOverview ……\n\nAudience ……"
+        }
+      ]
+    },
+    {
+      "id": "art",
+      "label": "美术",
+      "type": "group",
+      "fields": [
+        {
+          "id": "intro",
+          "label": "美术板块引言（可留空）",
+          "type": "textarea",
+          "rows": 3
+        },
+        {
+          "id": "categories",
+          "label": "系列分组（可排序）",
+          "type": "list",
+          "itemLabel": "系列",
+          "itemTitle": "name",
+          "fields": [
+            {
+              "id": "name",
+              "label": "系列名（如 Tension / Pair / Photography）",
+              "type": "text"
+            },
+            {
+              "id": "status",
+              "label": "状态",
+              "type": "select",
+              "options": [
+                { "value": "past", "label": "已展出" },
+                { "value": "upcoming", "label": "即将展出" },
+                { "value": "ongoing", "label": "进行中" }
+              ]
+            },
+            {
+              "id": "description",
+              "label": "系列简介（可留空）",
+              "type": "textarea",
+              "rows": 2
+            },
+            {
+              "id": "columns",
+              "label": "网格列数",
+              "type": "select",
+              "options": [
+                { "value": "1", "label": "1 列" },
+                { "value": "2", "label": "2 列" },
+                { "value": "3", "label": "3 列" },
+                { "value": "4", "label": "4 列" }
+              ]
+            },
+            {
+              "id": "items",
+              "label": "作品图（postimg 外链）",
+              "type": "galleryUrl",
+              "caption": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "label": "传媒",
+      "type": "group",
+      "fields": [
+        {
+          "id": "intro",
+          "label": "传媒板块引言（可留空）",
+          "type": "textarea",
+          "rows": 3
+        },
+        {
+          "id": "articles",
+          "label": "文章（News Story / Research Highlight / Misinformation Analysis / Interview 等）",
+          "type": "list",
+          "itemLabel": "文章",
+          "itemTitle": "title",
+          "fields": [
+            {
+              "id": "title",
+              "label": "标题",
+              "type": "text"
+            },
+            {
+              "id": "subtitle",
+              "label": "副标题（可留空）",
+              "type": "text"
+            },
+            {
+              "id": "category",
+              "label": "分类标签",
+              "type": "select",
+              "options": [
+                { "value": "news_story", "label": "News Story（新闻报道）" },
+                { "value": "research_highlight", "label": "Research Highlight（研究亮点）" },
+                { "value": "misinformation_analysis", "label": "Misinformation Analysis（错误信息分析）" },
+                { "value": "interview", "label": "Interview Transcript（采访转录）" },
+                { "value": "essay", "label": "Essay / 随笔" }
+              ]
+            },
+            {
+              "id": "cover",
+              "label": "封面图（postimg 外链，可留空）",
+              "type": "imageUrl"
+            },
+            {
+              "id": "excerpt",
+              "label": "摘要（列表卡片显示，1-3 句）",
+              "type": "textarea",
+              "rows": 3
+            },
+            {
+              "id": "body",
+              "label": "正文（支持 Markdown：## 标题 / **粗体** / *斜体* / > 引用 / [链接](url)）",
+              "type": "markdown",
+              "rows": 16
+            },
+            {
+              "id": "attachment",
+              "label": "原稿附件（可选：上传 PDF/docx）",
+              "type": "file",
+              "accept": ".pdf,.doc,.docx"
+            },
+            {
+              "id": "date",
+              "label": "日期（YYYY-MM-DD，可留空）",
+              "type": "text",
+              "placeholder": "2026-02-15"
+            }
+          ]
+        },
+        {
+          "id": "videos",
+          "label": "视频",
+          "type": "list",
+          "itemLabel": "视频",
+          "itemTitle": "title",
+          "fields": [
+            {
+              "id": "title",
+              "label": "标题",
+              "type": "text"
+            },
+            {
+              "id": "description",
+              "label": "描述",
+              "type": "textarea",
+              "rows": 3
+            },
+            {
+              "id": "cover",
+              "label": "封面图（postimg 外链）",
+              "type": "imageUrl"
+            },
+            {
+              "id": "videoFile",
+              "label": "视频文件（mp4 / mov，R2 上传）",
+              "type": "file",
+              "accept": "video/*"
+            },
+            {
+              "id": "videoEmbed",
+              "label": "或粘贴 YouTube / B站 嵌入链接（二选一）",
+              "type": "video"
+            },
+            {
+              "id": "date",
+              "label": "日期（可留空）",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "id": "audios",
+          "label": "音频 / 播客",
+          "type": "list",
+          "itemLabel": "音频",
+          "itemTitle": "title",
+          "fields": [
+            {
+              "id": "title",
+              "label": "标题",
+              "type": "text"
+            },
+            {
+              "id": "description",
+              "label": "描述",
+              "type": "textarea",
+              "rows": 3
+            },
+            {
+              "id": "cover",
+              "label": "封面图（postimg 外链）",
+              "type": "imageUrl"
+            },
+            {
+              "id": "audioFile",
+              "label": "音频文件（mp3 / m4a，R2 上传）",
+              "type": "file",
+              "accept": "audio/*"
+            },
+            {
+              "id": "date",
+              "label": "日期（可留空）",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "label": "关于我 / 联系方式",
+      "type": "group",
+      "fields": [
+        {
+          "id": "photo",
+          "label": "个人照片（postimg 外链）",
+          "type": "imageUrl"
+        },
+        {
+          "id": "email",
+          "label": "邮箱",
+          "type": "text",
+          "placeholder": "chenyu.shen0521@gmail.com"
+        },
+        {
+          "id": "phone",
+          "label": "电话",
+          "type": "text",
+          "placeholder": "+1 (615) 881-0408"
+        },
+        {
+          "id": "location",
+          "label": "所在地",
+          "type": "text",
+          "placeholder": "Nashville / Wuxi"
+        },
+        {
+          "id": "footer",
+          "label": "底部小字（可留空）",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
