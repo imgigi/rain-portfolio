@@ -351,14 +351,20 @@ function viewMedia() {
   const articlesHtml = articles.length ? `<div class="m-list--articles">${articles.map((a, i) => {
     const catLabel = CAT_LABEL[a.category] || "";
     const excerpt = a.excerpt || "";
+    const cover = a.cover && a.cover.url;
+    const placeholderLabel = catLabel || "Article";
     return `
       <a class="m-art-item" href="#/article/${i}">
-        <div class="m-art-item__meta">
-          ${catLabel ? `<span class="m-art-item__kicker">${esc(catLabel)}</span>` : ""}
-          ${a.date ? `<span class="m-art-item__date">${esc(a.date)}</span>` : ""}
+        <div class="m-art-item__cover${cover ? "" : " m-art-item__cover--empty"}">
+          ${cover
+            ? `<img src="${esc(rimg(cover, 600))}" srcset="${esc(srcsetFor(cover, [400, 600, 900]))}" sizes="220px" alt="" loading="lazy">`
+            : `<div class="m-art-item__placeholder">${esc(placeholderLabel)}</div>`}
         </div>
-        <div class="m-art-item__divider"></div>
         <div class="m-art-item__body">
+          <div class="m-art-item__top">
+            ${catLabel ? `<span class="m-art-item__kicker">${esc(catLabel)}</span>` : "<span></span>"}
+            ${a.date ? `<span class="m-art-item__date">${esc(a.date)}</span>` : ""}
+          </div>
           <h3 class="m-art-item__title">${esc(a.title || "Untitled")}</h3>
           ${a.subtitle ? `<div class="m-art-item__sub">${esc(a.subtitle)}</div>` : ""}
           ${excerpt ? `<p class="m-art-item__excerpt">${esc(excerpt)}</p>` : ""}
