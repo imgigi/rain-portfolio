@@ -675,20 +675,61 @@ main { min-height: 80vh; }
 
 .m-art-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1.3fr);
-  gap: 50px;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 40px;
   border-top: 1px solid #000;
   padding-top: 30px;
   transition: opacity .2s;
   color: #000;
+  align-items: start;
 }
-.m-art-item:hover { opacity: 0.7; }
+.m-art-item:hover { opacity: 0.82; }
 .m-art-item:first-child { border-top: 0; padding-top: 0; }
 
-.m-art-item__meta {
+.m-art-item__cover {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: #e6e6e6;
+  overflow: hidden;
+  position: relative;
+}
+.m-art-item__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s cubic-bezier(.22,.8,.28,1);
+}
+.m-art-item:hover .m-art-item__cover img { transform: scale(1.04); }
+.m-art-item__cover--empty {
+  background: #1a1a1a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.m-art-item__placeholder {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+.m-art-item__body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
+}
+.m-art-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 2px;
 }
 .m-art-item__kicker {
   font-size: 11px;
@@ -703,16 +744,7 @@ main { min-height: 80vh; }
   letter-spacing: 1px;
   color: #666;
   text-transform: uppercase;
-}
-.m-art-item__divider {
-  background: #ddd;
-  width: 1px;
-  height: 100%;
-}
-.m-art-item__body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  white-space: nowrap;
 }
 .m-art-item__title {
   font-size: clamp(22px, 2.2vw, 30px);
@@ -1094,10 +1126,9 @@ footer.site-footer {
   .home-nav-grid { grid-template-columns: 1fr; }
   .m-art-item {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 20px;
   }
-  .m-art-item__divider { display: none; }
-  .m-art-item__meta { flex-direction: row; gap: 20px; }
+  .m-art-item__cover { aspect-ratio: 16 / 9; }
   .m-media-card__info { flex-direction: column; gap: 8px; }
   .m-media-card__date { white-space: normal; }
 }
